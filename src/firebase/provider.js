@@ -59,3 +59,7 @@ export const registerUserWithEmailPassword = async ({
     return { ok: false, errorMessage: error.message };
   }
 };
+
+export const loginWithEmailPassword = () => {
+  //signInWithEmailAndPassword de firebase
+};

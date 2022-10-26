@@ -22,6 +22,7 @@ export const LoginPage = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
+    //esta no es la accion a despachar
     dispatch(checkingAuthentication());
   };
 
