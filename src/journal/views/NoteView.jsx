@@ -1,8 +1,10 @@
 import { SaveOutlined } from "@mui/icons-material";
 import { Button, Grid, TextField, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
 import { ImageGallery } from "../components";
 
 export const NoteView = () => {
+  const { active } = useSelector((state) => state.journal);
   return (
     <Grid
       className="animate__animated animate__fadeIn animate__faster"
@@ -14,7 +16,7 @@ export const NoteView = () => {
     >
       <Grid item>
         <Typography fontSize={39} fontWeight="light">
-          28 de agosto, 2023
+          {active.date}
         </Typography>
       </Grid>
       <Grid item>
