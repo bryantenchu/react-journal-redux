@@ -1,8 +1,10 @@
 import { collection, doc, setDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
+import { addNewEmptyNote, savingNewNote, setActiveNote } from "./journalSlice";
 
 export const startNewNote = () => {
   return async (dispatch, getState) => {
+    dispatch(savingNewNote());
     const { uid } = getState().auth;
     const newNote = {
       title: "",
@@ -13,8 +15,10 @@ export const startNewNote = () => {
     const newDoc = doc(collection(FirebaseDB, `/${uid}/journal/notes`));
     await setDoc(newDoc, newNote);
 
+    newNote.id = newDoc.id; // creo la propiedad
+
     //dispatch
-    //dispatch de newNote
-    //dispatch para activar la nota
+    dispatch(addNewEmptyNote(newNote));
+    dispatch(setActiveNote(newNote));
   };
 };
