@@ -1,51 +1,53 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 
 export const journalSlice = createSlice({
-  name: "journal",
-  initialState: {
-    isSaving: false,
-    messageSaved: "",
-    notes: [],
-    active: null,
-  },
-  reducers: {
-    savingNewNote: (state) => {
-      state.isSaving = true;
+    name: "journal",
+    initialState: {
+        isSaving: false,
+        messageSaved: "",
+        notes: [],
+        active: null,
     },
-    addNewEmptyNote: (state, action) => {
-      state.notes.push(action.payload);
-      state.isSaving = false;
+    reducers: {
+        savingNewNote: (state) => {
+            state.isSaving = true;
+        },
+        addNewEmptyNote: (state, action) => {
+            state.notes.push(action.payload);
+            state.isSaving = false;
+        },
+        setActiveNote: (state, action) => {
+            state.active = action.payload;
+            state.messageSaved = ''
+        },
+        setNotes: (state, action) => {
+            state.notes = action.payload;
+        },
+        setSaving: (state, action) => {
+            state.isSaving = true
+            state.messageSaved = ''
+        },
+        updateNote: (state, action) => {//payload es una nota
+            state.isSaving = false
+            state.notes = state.notes.map(note => {
+                if (note.id === action.payload.id) {
+                    return action.payload
+                }
+                return note
+            })
+            state.messageSaved = `${action.payload.title}, actualizado correctamente`
+        },
+        deleteNodeById: (state, action) => {
+        },
     },
-    setActiveNote: (state, action) => {
-      state.active = action.payload;
-    },
-    setNotes: (state, action) => {
-      state.notes = action.payload;
-    },
-    setSaving: (state, action) => {
-      state.isSaving = true
-      //TODO: mensaje de error
-    },
-    updateNote: (state, action) => {//payload es una nota
-      state.isSaving = false
-      state.notes = state.notes.map(note=>{
-        if(note.id===action.payload.id) {
-          return action.payload
-        }
-        return note
-      })
-      //TODO: mostrar mensaje de actualizacion
-    },
-    deleteNodeById: (state, action) => {},
-  },
 });
 
 export const {
-  addNewEmptyNote,
-  setActiveNote,
-  setNotes,
-  setSaving,
-  updateNote,
-  deleteNodeById,
-  savingNewNote,
+    addNewEmptyNote,
+    setActiveNote,
+    setNotes,
+    setSaving,
+    updateNote,
+    deleteNodeById,
+    savingNewNote,
 } = journalSlice.actions;
