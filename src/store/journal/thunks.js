@@ -5,8 +5,9 @@ import {
     addNewEmptyNote,
     savingNewNote,
     setActiveNote,
-    setNotes, setSaving, updateNote,
+    setNotes, setPhotosToActiveNote, setSaving, updateNote,
 } from "./journalSlice";
+import {fileUpload} from "../../helpers/fileUploader";
 
 export const startNewNote = () => {
     return async (dispatch, getState) => {
@@ -48,5 +49,18 @@ export const startSaveNote = () => {
         const docRef = doc(FirebaseDB, `${uid}/journal/notes/${note.id}`)
         await setDoc(docRef, noteToFireStore, {merge: true})
         dispatch(updateNote(note))
+    }
+}
+
+export const startUploadingFiles = (files = []) => {
+    return async (dispatch) => {
+        dispatch(setSaving())
+        const fileUploadPromises = []
+        for (const file of files) {
+            fileUploadPromises.push(fileUpload(file)) //creo el arreglo de promesas
+        }
+        const photosUrls = await Promise.all(fileUploadPromises) // cuando resuelve tengo un arreglo de las respuestas
+        dispatch(setPhotosToActiveNote(photosUrls))
+        // await fileUpload(files[0])
     }
 }
