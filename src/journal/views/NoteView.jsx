@@ -1,10 +1,10 @@
-import {SaveOutlined, UploadFile} from "@mui/icons-material";
+import {DeleteOutline, SaveOutlined, UploadFile} from "@mui/icons-material";
 import {Button, Grid, IconButton, TextField, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {ImageGallery} from "../components";
 import {useForm} from "../../hooks/useForm";
 import {useEffect, useMemo, useRef} from "react";
-import {setActiveNote, startSaveNote, startUploadingFiles} from "../../store/journal";
+import {setActiveNote, startDeletingNote, startSaveNote, startUploadingFiles} from "../../store/journal";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css"
 
@@ -35,8 +35,11 @@ export const NoteView = () => {
 
     const onFileInputChange = ({target}) => {
         if (target.files === 0) return
-        console.log('subiendo archivos')
         dispatch(startUploadingFiles(target.files))
+    }
+
+    const onDelete = () => {
+       dispatch(startDeletingNote())
     }
     return (
         <Grid
@@ -87,6 +90,12 @@ export const NoteView = () => {
                     value={body}
                     onChange={onInputChange}
                 />
+            </Grid>
+            <Grid container justifyContent='end'>
+                <Button onClick={onDelete} sx={{mt:2}} color='error'>
+                    <DeleteOutline/>
+                    Borrar
+                </Button>
             </Grid>
 
             {/* Image gallery */}
