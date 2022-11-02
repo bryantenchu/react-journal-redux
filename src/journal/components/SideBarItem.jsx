@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import React, { useMemo } from "react";
 import { useDispatch } from "react-redux";
-import { setActiveNote } from "../../store/journal/journalSlice";
+import { setActiveNote } from "../../store/journal";
 
 const SideBarItem = ({ title, body, id, date, imageUrls = [] }) => {
   const dispatch = useDispatch();
